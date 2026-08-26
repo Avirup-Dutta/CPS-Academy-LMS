@@ -27,11 +27,6 @@
         "files"
       ]
     },
-    "lessons": {
-      "type": "relation",
-      "relation": "oneToMany",
-      "target": "api::lesson.lesson"
-    },
     "instructor": {
       "type": "relation",
       "relation": "manyToOne",
@@ -50,10 +45,16 @@
       "target": "api::progress.progress",
       "mappedBy": "course"
     },
-    "qiuzs": {
+    "quizzes": {
       "type": "relation",
       "relation": "oneToMany",
-      "target": "api::qiuz.qiuz",
+      "target": "api::quiz.quiz",
+      "mappedBy": "course"
+    },
+    "lessons": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::lesson.lesson",
       "mappedBy": "course"
     }
   }

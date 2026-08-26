@@ -1,9 +1,9 @@
 {
   "kind": "collectionType",
-  "collectionName": "qiuzs",
+  "collectionName": "quizzes",
   "info": {
-    "singularName": "qiuz",
-    "pluralName": "qiuzs",
+    "singularName": "quiz",
+    "pluralName": "quizzes",
     "displayName": "Quiz"
   },
   "options": {
@@ -22,17 +22,17 @@
       "type": "relation",
       "relation": "manyToOne",
       "target": "api::course.course",
-      "inversedBy": "qiuzs"
-    },
-    "questions": {
-      "type": "relation",
-      "relation": "oneToMany",
-      "target": "api::question.question"
+      "inversedBy": "quizzes"
     },
     "quiz_results": {
       "type": "relation",
       "relation": "oneToMany",
-      "target": "api::quiz-result.quiz-result",
+      "target": "api::quiz-result.quiz-result"
+    },
+    "questions": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::question.question",
       "mappedBy": "quiz"
     }
   }

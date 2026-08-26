@@ -515,7 +515,7 @@ export interface ApiCourseCourse extends Struct.CollectionTypeSchema {
       'api::progress.progress'
     >;
     publishedAt: Schema.Attribute.DateTime;
-    qiuzs: Schema.Attribute.Relation<'oneToMany', 'api::qiuz.qiuz'>;
+    quizzes: Schema.Attribute.Relation<'oneToMany', 'api::quiz.quiz'>;
     thumbnail: Schema.Attribute.Media<'images' | 'files'>;
     title: Schema.Attribute.String & Schema.Attribute.Required;
     updatedAt: Schema.Attribute.DateTime;
@@ -569,6 +569,7 @@ export interface ApiLessonLesson extends Struct.CollectionTypeSchema {
   };
   attributes: {
     content: Schema.Attribute.Text & Schema.Attribute.Required;
+    course: Schema.Attribute.Relation<'manyToOne', 'api::course.course'>;
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
@@ -627,38 +628,6 @@ export interface ApiProgressProgress extends Struct.CollectionTypeSchema {
   };
 }
 
-export interface ApiQiuzQiuz extends Struct.CollectionTypeSchema {
-  collectionName: 'qiuzs';
-  info: {
-    displayName: 'Quiz';
-    pluralName: 'qiuzs';
-    singularName: 'qiuz';
-  };
-  options: {
-    draftAndPublish: true;
-  };
-  attributes: {
-    course: Schema.Attribute.Relation<'manyToOne', 'api::course.course'>;
-    createdAt: Schema.Attribute.DateTime;
-    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
-      Schema.Attribute.Private;
-    description: Schema.Attribute.Text;
-    locale: Schema.Attribute.String & Schema.Attribute.Private;
-    localizations: Schema.Attribute.Relation<'oneToMany', 'api::qiuz.qiuz'> &
-      Schema.Attribute.Private;
-    publishedAt: Schema.Attribute.DateTime;
-    questions: Schema.Attribute.Relation<'oneToMany', 'api::question.question'>;
-    quiz_results: Schema.Attribute.Relation<
-      'oneToMany',
-      'api::quiz-result.quiz-result'
-    >;
-    title: Schema.Attribute.String & Schema.Attribute.Required;
-    updatedAt: Schema.Attribute.DateTime;
-    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
-      Schema.Attribute.Private;
-  };
-}
-
 export interface ApiQuestionQuestion extends Struct.CollectionTypeSchema {
   collectionName: 'questions';
   info: {
@@ -683,6 +652,7 @@ export interface ApiQuestionQuestion extends Struct.CollectionTypeSchema {
     options: Schema.Attribute.JSON & Schema.Attribute.Required;
     publishedAt: Schema.Attribute.DateTime;
     question: Schema.Attribute.Text & Schema.Attribute.Required;
+    quiz: Schema.Attribute.Relation<'manyToOne', 'api::quiz.quiz'>;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
@@ -711,7 +681,7 @@ export interface ApiQuizResultQuizResult extends Struct.CollectionTypeSchema {
       Schema.Attribute.Private;
     percentage: Schema.Attribute.Integer & Schema.Attribute.Required;
     publishedAt: Schema.Attribute.DateTime;
-    quiz: Schema.Attribute.Relation<'manyToOne', 'api::qiuz.qiuz'>;
+    quiz: Schema.Attribute.Relation<'manyToOne', 'api::quiz.quiz'>;
     score: Schema.Attribute.Integer & Schema.Attribute.Required;
     student: Schema.Attribute.Relation<
       'manyToOne',
@@ -719,6 +689,38 @@ export interface ApiQuizResultQuizResult extends Struct.CollectionTypeSchema {
     >;
     submittedAt: Schema.Attribute.DateTime & Schema.Attribute.Required;
     totalQuestions: Schema.Attribute.Integer & Schema.Attribute.Required;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
+export interface ApiQuizQuiz extends Struct.CollectionTypeSchema {
+  collectionName: 'quizzes';
+  info: {
+    displayName: 'Quiz';
+    pluralName: 'quizzes';
+    singularName: 'quiz';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    course: Schema.Attribute.Relation<'manyToOne', 'api::course.course'>;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    description: Schema.Attribute.Text;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<'oneToMany', 'api::quiz.quiz'> &
+      Schema.Attribute.Private;
+    publishedAt: Schema.Attribute.DateTime;
+    questions: Schema.Attribute.Relation<'oneToMany', 'api::question.question'>;
+    quiz_results: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::quiz-result.quiz-result'
+    >;
+    title: Schema.Attribute.String & Schema.Attribute.Required;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
@@ -1257,9 +1259,9 @@ declare module '@strapi/strapi' {
       'api::enrollment.enrollment': ApiEnrollmentEnrollment;
       'api::lesson.lesson': ApiLessonLesson;
       'api::progress.progress': ApiProgressProgress;
-      'api::qiuz.qiuz': ApiQiuzQiuz;
       'api::question.question': ApiQuestionQuestion;
       'api::quiz-result.quiz-result': ApiQuizResultQuizResult;
+      'api::quiz.quiz': ApiQuizQuiz;
       'plugin::content-releases.release': PluginContentReleasesRelease;
       'plugin::content-releases.release-action': PluginContentReleasesReleaseAction;
       'plugin::i18n.locale': PluginI18NLocale;

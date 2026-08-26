@@ -31,6 +31,12 @@
       "relation": "oneToMany",
       "target": "api::progress.progress",
       "mappedBy": "lesson"
+    },
+    "course": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::course.course",
+      "inversedBy": "lessons"
     }
   }
 }

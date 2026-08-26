@@ -30,14 +30,13 @@
     "quiz": {
       "type": "relation",
       "relation": "manyToOne",
-      "target": "api::qiuz.qiuz",
+      "target": "api::quiz.quiz",
       "inversedBy": "quiz_results"
     },
     "student": {
       "type": "relation",
       "relation": "manyToOne",
-      "target": "plugin::users-permissions.user",
-      "inversedBy": "quiz_results"
+      "target": "plugin::users-permissions.user"
     }
   }
 }
