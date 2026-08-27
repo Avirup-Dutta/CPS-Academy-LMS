@@ -125,7 +125,12 @@ export default function Home() {
                   {course.description}
                 </p>
 
-                <button className="mt-6 rounded-lg bg-blue-600 px-5 py-3 font-medium text-white hover:bg-blue-700">
+                <button
+                  onClick={() => {
+                    window.location.href = `/course/${course.id}`;
+                  }}
+                  className="mt-6 rounded-lg bg-blue-600 px-5 py-3 font-medium text-white hover:bg-blue-700"
+                >
                   View Course
                 </button>
               </div>

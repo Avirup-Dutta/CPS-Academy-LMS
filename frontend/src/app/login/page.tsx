@@ -32,16 +32,20 @@ export default function LoginPage() {
 
             if (!response.ok) {
                 setMessage(data?.error?.message || "Login failed.");
+                setLoading(false);
                 return;
             }
 
+            // Save login information
             localStorage.setItem("jwt", data.jwt);
             localStorage.setItem("user", JSON.stringify(data.user));
 
-            setMessage(`Welcome, ${data.user.username}!`);
-        } catch {
+            // Successful login → dashboard
+            window.location.href = "/";
+
+        } catch (error) {
+            console.error("Login error:", error);
             setMessage("Could not connect to the backend.");
-        } finally {
             setLoading(false);
         }
     }
@@ -49,6 +53,7 @@ export default function LoginPage() {
     return (
         <main className="flex min-h-screen items-center justify-center bg-zinc-100 px-4">
             <div className="w-full max-w-md rounded-2xl bg-white p-8 shadow-lg">
+
                 <h1 className="mb-2 text-3xl font-bold text-zinc-900">
                     CPS Academy
                 </h1>
@@ -58,6 +63,7 @@ export default function LoginPage() {
                 </p>
 
                 <form onSubmit={handleSubmit} className="space-y-5">
+
                     <div>
                         <label
                             htmlFor="identifier"
@@ -72,8 +78,8 @@ export default function LoginPage() {
                             value={identifier}
                             onChange={(event) => setIdentifier(event.target.value)}
                             required
-                            className="w-full rounded-lg border border-zinc-300 px-4 py-3 text-zinc-900 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-200"
                             placeholder="teststudent@example.com"
+                            className="w-full rounded-lg border border-zinc-300 px-4 py-3 text-zinc-900 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-200"
                         />
                     </div>
 
@@ -91,8 +97,8 @@ export default function LoginPage() {
                             value={password}
                             onChange={(event) => setPassword(event.target.value)}
                             required
+                            placeholder="Enter your password"
                             className="w-full rounded-lg border border-zinc-300 px-4 py-3 text-zinc-900 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-200"
-                            placeholder="••••••••"
                         />
                     </div>
 
@@ -103,6 +109,7 @@ export default function LoginPage() {
                     >
                         {loading ? "Logging in..." : "Login"}
                     </button>
+
                 </form>
 
                 {message && (
@@ -110,6 +117,7 @@ export default function LoginPage() {
                         {message}
                     </p>
                 )}
+
             </div>
         </main>
     );
